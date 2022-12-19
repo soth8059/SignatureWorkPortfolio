@@ -1,4 +1,7 @@
 <i> Authored by Tara Sothy and Matt Westerhaus </i>
+
+This project was part of the CISC 340 Architecture class, this is a piplined simulator which can take machine code made by an assembler as input and execute the given assembly code. More details are provided below.
+
 # **To run a file through the ref_asm**
 
 1)./ref_asm -i input_file -o asm_output_file 
