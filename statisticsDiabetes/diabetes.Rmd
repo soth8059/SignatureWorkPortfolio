@@ -1,0 +1,117 @@
+---
+title: "diabetesEDA"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(skimr)
+library(stringi)
+library(leaps)
+library(stringr)
+library(broom)
+library(car)
+library(readr)
+library(readxl)
+library(lmtest)
+library(corrplot)
+library(moments)
+```
+
+```{r}
+diabetesIndicators <- read_excel("diabetesIndicators.xlsx")
+```
+
+```{r}
+data <- diabetesIndicators %>%
+  mutate(diabetesTF = as.numeric(ifelse(Diabetes_012 > 1, 1, 0)))
+
+#dataM <- as.matrix(data[,which(sapply(data, is.numeric))])
+dataM <- as.matrix(data)
+```
+
+```{r}
+summary(data)
+```
+
+We did not remove any of the data in this data set because there were no missing values or invalid entries that would prohibit an effective analysis. We did add a variable diabetesTF to represent our response variable in a binary form rather than 0, 1 or 2. Our response variable, diabetes_012 represents if someone doesn't have diabetes, has pre-diabetes or has diabetes. The age and income variables are in numerical groups which represent ranges, but these are the closest variables we have to categorical variables so did not need to use dummy variables.
+
+```{r}
+#for(i in 1:23) {
+#  hist(dataM[,i], xlab = colnames(dataM)[i])
+#}
+for(i in 1:23)
+{
+  plot(sort(dataM[,i]), ylab = colnames(data[,i]))
+}
+```
+
+```{r}
+for(i in 1:23) {
+
+print(colnames(data[,i]))  
+mean <- mean(dataM[,i])
+sum_of_squares <- sum((dataM[,i] - mean)^2)
+print(paste("Mean     : ", mean, sep = ""))
+print(paste("Sum'O'^2 : ", sum_of_squares, sep = ""))
+print(paste("Variance : ", var(dataM[,i]), sep = ""))
+print(paste("Stdev    : ", sd(dataM[,i]), sep = ""))
+print(paste("Kurtosis : ", kurtosis(dataM[,i]), sep = ""))
+print(paste("Skewness : ", skewness(dataM[,i]), sep = ""))
+cat("\n")
+}
+```
+
+
+From the information above, we noticed CholCheck, BMI, Stroke, HeartDiseaseorAttack, HvyAlcoholConsump, AnyHealthcare, NoDocbcCost, MentalHealth, PhyHealth are fairly skewed and this is likely because many are binary variables. This could also be because most of the population does or does not experience some of these things, as an example, most don't have a stroke in their life. On the other hand Education seems to be well distributed, it has a kurtosis of close to 3.
+We also found BMI interesting because it is a percentile of smallest BMIs, so the value represents the percent of those who have a larger BMI than the individual.  
+
+We don't need to do transformations because our response variable has 3 numerical options, we will likely be using either diabetes_012 or diabetesTF as our response variables and the options of values for these are 0, 1 or 2 and 0 or 1, respectively.
+
+```{r}
+cov_matrix <- cov(dataM)
+sum_squares_matrix <- cov_matrix * (253680 - 1)
+cor_matrix <- cor(dataM)
+```
+
+```{r}
+corrplot(cov_matrix, method = "shade",is.corr = FALSE, type = "upper", tl.pos = "t")
+corrplot(cor_matrix, method = "shade", type = "lower", add = TRUE, tl.pos = "l")
+```
+
+Looking at our heat map, the bottom half are the correlations and the top half s the covariances. There is little covariance among the variables. However, looking at correlation, there is some weaker correlation between many variables and very few strong relationships between variables as the vast majority of the correlations were below 0.3. For both the covariance and correlation, the only relationship to watch for multicollinearity is between general health and physical health.
+
+```{r}
+qn <- qnorm(1 - 0.01/2)
+Z <- scale(dataM) 
+
+dataNA <- dataM
+dataNA[which(Z > qn| Z < (-1*qn))] <- NA
+#corNA <- cor(dataNA[, c(1:3,5:6,9:11,15:23)], use = "pairwise.complete.obs")
+corNA <- cor(dataNA[,], use = "pairwise.complete.obs")
+corrplot(cor_matrix, method = "shade")
+corrplot(corNA, method = "shade")
+corNANA <- dataNA[,c(4,7,8,12,13,14)]
+summary(corNANA)
+```
+When comparing the correlations before and after outliers were removed, there are a few things that have changed. Some binary variables have become meanless because they now only have one value. Additionally there is a cluster of GenHealth, MentHealth, PhysHealt and DiffWalk which seemed relatively correlated and after outliers were taken out seems less correlated. Overall, taking out outliers at this point seems to just lead to data loss for us.
+
+```{r}
+lim <- qchisq(.95,2)
+dataMHold <- dataM
+
+for(i in 2:22){
+  dat <- dataM[,c(i,1)]
+  test <- mahalanobis(dat, center = c(mean(dataM[,i]), mean(dataM[,1])), cov = cov(dat))
+  dataMHold[which(test > lim), c(1,i)] <- NA
+}
+
+corrplot(cor_matrix, method = "shade")
+corrplot(cor(dataMHold, use = "pairwise.complete.obs"), method = "shade")
+corNANA <- dataMHold[,c(4,7,8,12,13,14)]
+summary(corNANA)
+```
+Taking out outliers according to 2 dimensional outliers seems to have a similar effect when we were taking out outliers before. Some binary variables only have one variable and the same cluster of GenHealth, MentHealth, PhysHealt and DiffWalk which seemed relatively correlated, after outliers were taken out seems less correlated. Outliers seems influential for this data, but taking outliers out seems to make our data less meaningful.
