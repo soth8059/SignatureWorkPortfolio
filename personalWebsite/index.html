@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="utf-8"/>
+	<meta name = "viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="foundation/css/foundation.css">
+    <link rel="stylesheet" href="css/personal_website.css">
+    <head>
+        <title>Personal Website Homepage</title>
+    </head>
+    <body>
+        <div class="off-canvas-wrapper hide-for-medium">
+            <!-- Your menu or Off-canvas content goes here -->
+            <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+                <!-- Close button -->
+                <button class="close-button" aria-label="Close menu" type="button" data-close>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <!-- Menu -->
+                <ul class="vertical menu">
+                    <li><a class="center Resume" href="resume.html">Resume</a></li>
+                    <li><a class="center Projects" href="projects.html">Projects</a></li>
+                    <li><a class="center Fun" href="fun.html">Hobbies</a></li>
+                </ul>
+            </div>
+
+            <div class="grid-x grid-padding-x">
+                <button type="button" class="cell auto button" data-toggle="offCanvas">Open Menu</button>
+            </div>
+        </div>
+        <div class="grid-container">
+            <div class="hide-for-small-only grid-x grid-padding-x">
+                <a class="center cell Resume medium-4" href=resume.html target="_self">
+                    <button type="button">Resume</button>
+                </a>
+                <a class="center cell Projects medium-4" href=projects.html target="_self">
+                    <button type="button">Projects</button>
+                </a>
+                <a class="center cell Fun medium-4" href=fun.html target="_self">
+                    <button type="button" >Hobbies</button>
+                </a>
+            </div>
+
+            <div class="grid-x grid-padding-x">
+                <h1 class="cell">Tara Sothy</h1>
+                <img class="cell center small-2" src="https://media-exp1.licdn.com/dms/image/C4E03AQHceDJS_XCH3A/profile-displayphoto-shrink_200_200/0/1604539068543?e=1670457600&v=beta&t=Xr4C1o6RPNqFWN9ml1V8dMn-d3i1irpMs9_BztX2drs" alt="Photo of Tara Sothy"/>
+                <p class="cell center small-11">
+                    I'm graduating in December and I'm studying Computer Science with miniors in Data 
+                    Analytics and Statistics. After graduation I'd like to work as a Full Stack Software 
+                    Developer and eventually earn my masters. I'm enjoying my last semester at the University
+                    of St. Thomas in St. Paul, MN and at the minute web development and cyber security have
+                    caught my interest. I'm excited to see where the next few months take me.
+                </p>
+            </div>
+
+        </div>
+
+        <script src="foundation/js/vendor.js"></script>
+        <script src="foundation/js/foundation.js"></script>
+        <script type="application/javascript">
+            $(document).foundation();
+        </script>
+    </body>
+
+</html>
+
+
+
+

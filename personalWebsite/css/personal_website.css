@@ -1,0 +1,120 @@
+@charset "UTF-8";
+/**
+ * CSS for Tara Sothy's Personal Website
+ */
+html, body{
+    font-size: 115%;
+    padding: 0.15rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1, h2{
+    
+    font-size: 1.75rem;
+}
+
+h3{
+    font-size: 1.15rem;
+}
+
+h4{
+    font-size: 1.08rem;
+}
+
+h1, h2, h3, h4{
+    text-align: center;
+    padding: 0.15rem;
+}
+
+ul, ol{
+    font-size: .85rem;
+}
+
+p{
+    padding: 0.1rem;
+}
+
+button{
+    color: #ffffff;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+a{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.center{
+    align-content: center;
+    text-align: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom:auto;
+    vertical-align: auto;
+}
+
+.menu{
+    background-color: #ffffff;
+    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+ }
+
+.button{
+    background-color: #4d954694;
+    color: #ffffff;
+}
+
+.button:hover{
+    background-color: #458641;
+}
+
+.Homepage{
+    background-color: #7660af8b;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+    
+}
+
+.Homepage:hover{
+    background-color: #735ab3;
+}
+
+.Resume {
+    background-color: #dda44293;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+}
+
+.Resume:hover{
+    background-color: #d19124;
+}
+
+.Projects{
+    background-color: #73afa1ab;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+}
+
+.Projects:hover{
+    background-color: #5e998b;
+}
+
+.Fun{
+    background-color: #885673a4;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1.15;
+}
+
+.Fun:hover{
+    background-color: #814668;
+}
